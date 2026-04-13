@@ -3,6 +3,15 @@ import { useAuth } from '../hooks/useAuth';
 import { Modal } from '../components/Modal';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 
+function modelLabel(model: any): string {
+  if (!model) return '';
+  if (typeof model === 'string') return model;
+  if (typeof model === 'object') {
+    return model.default || model.name || model.id || JSON.stringify(model);
+  }
+  return String(model);
+}
+
 export function Agents() {
   const { getHeaders } = useAuth();
   const [profiles, setProfiles] = useState<any[]>([]);
@@ -66,7 +75,11 @@ export function Agents() {
         {profiles.map(profile => (
           <div key={profile.name} className="card">
             <h4 style={{ fontFamily: 'var(--font-mono)', marginBottom: '12px' }}>{profile.name}</h4>
-            {profile.model && <p style={{ fontSize: '13px', color: 'var(--color-text-muted)', marginBottom: '12px' }}>Model: {profile.model}</p>}
+            {profile.model && (
+              <p style={{ fontSize: '13px', color: 'var(--color-text-muted)', marginBottom: '12px' }}>
+                Model: {modelLabel(profile.model)}
+              </p>
+            )}
             <div style={{ display: 'flex', gap: '8px' }}>
               <button className="button-sm" onClick={() => { setSelectedProfile(profile); setShowModal(true); }}>Edit Config</button>
               {profile.name !== 'default' && <button className="button-sm button-danger">Delete</button>}

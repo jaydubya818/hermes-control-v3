@@ -11,3 +11,7 @@ dist-server/
 *.swp
 *.swo
 *~
+
+# Added by daily-repo-improvement
+build/
+npm-debug.log*
